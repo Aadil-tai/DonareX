@@ -4,12 +4,14 @@ const bodyParser = require('body-parser');
 const orderRoutes = require('./routes/orderRoutes');
 const webHooksRoutes = require('./routes/webHooksRoutes');
 const contactRoutes = require('./routes/ContactRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const path = require('path');
 const dotenv = require('dotenv');
 
 dotenv.config();
 const connectDB = require('./config/db');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -18,14 +20,32 @@ connectDB();
 
 
 app.use(express.json());
+
+app.use(cookieParser());
+
+
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-app.use(bodyParser.json());
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+
+app.use(
+    cors({
+        origin: function (origin, callback) {
+            if (!origin) return callback(null, true);
+            if (allowedOrigins.includes(origin)) {
+                return callback(null, true);
+            } else {
+                return callback(new Error("Not allowed by CORS"));
+            }
+        },
+        credentials: true,
+    })
+); app.use(bodyParser.json());
 
 
 app.use('/', orderRoutes);
 app.use('/api', webHooksRoutes);
 app.use('/api', contactRoutes);
+app.use('/api', adminRoutes)
 
 
 const __dirname1 = path.resolve();

@@ -16,7 +16,12 @@ const contactSchema = new mongoose.Schema(
         message: {
             type: String,
             required: true,
-        }, createdAt: {
+        },
+        isRead: {
+            type: Boolean,
+            default: false,
+        },
+        createdAt: {
             type: Date,
             default: Date.now
         }

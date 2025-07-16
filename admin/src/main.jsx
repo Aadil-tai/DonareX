@@ -1,4 +1,5 @@
-import { StrictMode } from "react";
+// Main.jsx
+import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
@@ -9,18 +10,19 @@ import "flatpickr/dist/flatpickr.css";
 
 // Contexts and Providers
 import { ThemeProvider } from "./context/ThemeContext";
-import { AppWrapper } from "./components/common/PageMeta"; // Assuming it wraps meta/head logic
+import { AppWrapper } from "./components/common/PageMeta";
 
-// Render root app
-const rootElement = document.getElementById("root");
-if (!rootElement) throw new Error("Root element not found");
-
-createRoot(rootElement).render(
-  <StrictMode>
+const Root = () => (
+  <React.StrictMode>
     <ThemeProvider>
       <AppWrapper>
         <App />
       </AppWrapper>
     </ThemeProvider>
-  </StrictMode>
+  </React.StrictMode>
 );
+
+const rootElement = document.getElementById("root");
+if (!rootElement) throw new Error("Root element not found");
+
+createRoot(rootElement).render(<Root />);

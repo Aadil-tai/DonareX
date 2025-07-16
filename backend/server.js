@@ -28,14 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "https://donarex-client.onrender.com"];
 app.use(
     cors({
-        origin: function (origin, callback) {
-            if (!origin) return callback(null, true);
-            if (allowedOrigins.includes(origin)) {
-                return callback(null, true);
-            } else {
-                return callback(new Error("Not allowed by CORS"));
-            }
-        },
+        origin: true,
         credentials: true,
     })
 );

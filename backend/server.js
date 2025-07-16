@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS setup for development/local testing
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174", "https://donarex-client.onrender.com"];
 app.use(
     cors({
         origin: function (origin, callback) {

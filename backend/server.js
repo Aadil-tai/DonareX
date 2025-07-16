@@ -48,7 +48,7 @@ app.use('/api', adminRoutes);
 
 // Serve frontend build in production
 if (process.env.NODE_ENV === 'production') {
-    const buildPath = path.join(__dirname, '../client/build');
+    const buildPath = path.join(__dirname, '../client/dist');
     app.use(express.static(buildPath));
 
     app.get('*', (req, res) => {

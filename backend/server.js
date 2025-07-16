@@ -5,28 +5,27 @@ const orderRoutes = require('./routes/orderRoutes');
 const webHooksRoutes = require('./routes/webHooksRoutes');
 const contactRoutes = require('./routes/ContactRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-
-const path = require('path');
-const dotenv = require('dotenv');
-
-dotenv.config();
-const connectDB = require('./config/db');
 const cookieParser = require('cookie-parser');
+const dotenv = require('dotenv');
+const path = require('path');
+
+// Load environment variables
+dotenv.config();
+
+// Connect MongoDB
+const connectDB = require('./config/db');
+connectDB();
 
 const app = express();
 
-
-connectDB();
-
-
+// Middlewares
 app.use(express.json());
-
 app.use(cookieParser());
-
-
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
 
+// CORS setup for development/local testing
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
 app.use(
     cors({
         origin: function (origin, callback) {
@@ -39,29 +38,29 @@ app.use(
         },
         credentials: true,
     })
-); app.use(bodyParser.json());
+);
 
-
+// API Routes
 app.use('/', orderRoutes);
 app.use('/api', webHooksRoutes);
 app.use('/api', contactRoutes);
-app.use('/api', adminRoutes)
+app.use('/api', adminRoutes);
 
-
-const __dirname1 = path.resolve();
+// Serve frontend build in production
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname1, "../client/dist")));
+    const buildPath = path.join(__dirname, '../client/build');
+    app.use(express.static(buildPath));
 
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname1, "../client", "dist", "index.html"));
+        res.sendFile(path.resolve(buildPath, 'index.html'));
     });
 } else {
     app.get("/", (req, res) => {
-        res.send("API is running successfully");
+        res.send("🚀 API is running successfully.");
     });
 }
 
-
+// Start server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);

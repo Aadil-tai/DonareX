@@ -40,4 +40,42 @@ router.get('/contact', verifyToken, verifyAdmin, async (req, res) => {
         res.status(500).json({ Message: 'Server error while fetching contacts...' })
     }
 })
+
+
+router.put("/contact/:id/read", verifyToken, verifyAdmin, async (req, res) => {
+    const { id } = req.params;
+    const { isRead } = req.body;
+
+    try {
+        const updated = await Contact.findByIdAndUpdate(
+            id, { isRead }, { new: true }
+        );
+
+        if (!updated) {
+            return res.status(404).json({ message: "Message not found" })
+        }
+
+        res.status(200).json({ message: "Status Updated", updated })
+    } catch (error) {
+        console.error("Error updating status:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+})
+
+router.delete("/contact/:id/", verifyToken,verifyAdmin, async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deleted = await Contact.findByIdAndDelete(id)
+
+        if (!deleted) {
+            return res.status(404).json({ message: "Message not found" });
+        }
+
+        res.status(200).json({ message: "Contact message deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting message:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+})
 module.exports = router;

@@ -50,7 +50,7 @@ const Donate = () => {
         const tip = Number(data.tip || 0);
 
         try {
-            const response = await axios.post(`${backendURL}/create-order`, {
+            const response = await axios.post(`${backendURL}/api/create-order`, {
                 name: data.name,
                 email: data.email,
                 phone,

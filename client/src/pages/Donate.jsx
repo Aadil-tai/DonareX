@@ -97,7 +97,7 @@ const Donate = () => {
                 url: err.config?.url || "No request URL"
             });
 
-            toast("Something went wrong while creating the payment.");
+
         }
     };
 

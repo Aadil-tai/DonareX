@@ -7,7 +7,6 @@ const initialState = {
     status: 'idle',
     responseMessage: '',
 };
-const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 
 export const sendContactForm = createAsyncThunk(
@@ -15,12 +14,12 @@ export const sendContactForm = createAsyncThunk(
     async (formData, thunkAPI) => {
         try {
             const response = await axios.post(
-                `${backendURL}/api/contact`,
+                `/api/contact`,
                 formData,
-                { withCredentials: true } 
+                { withCredentials: true }
             );
 
-            return response.data; 
+            return response.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(
                 err.response?.data?.message || 'Something went wrong'

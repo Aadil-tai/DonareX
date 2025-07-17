@@ -59,7 +59,7 @@ const Donate = () => {
                 anonymous: data.anonymous || false,
                 address: data.address,
                 currency: "INR"
-            });
+            }); 
 
             const orderDetails = response.data;
 

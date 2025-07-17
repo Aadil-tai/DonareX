@@ -59,7 +59,7 @@ const Donate = () => {
                 anonymous: data.anonymous || false,
                 address: data.address,
                 currency: "INR"
-            }); 
+            });
 
             const orderDetails = response.data;
 
@@ -87,7 +87,16 @@ const Donate = () => {
             reset();
 
         } catch (err) {
-            console.error("Payment failed:", err);
+            console.error("Payment failed:", {
+                message: err.message,
+                name: err.name,
+                code: err.code,
+                stack: err.stack,
+                response: err.response?.data || "No response data",
+                status: err.response?.status || "No status",
+                url: err.config?.url || "No request URL"
+            });
+
             toast("Something went wrong while creating the payment.");
         }
     };

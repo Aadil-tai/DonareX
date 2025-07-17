@@ -34,7 +34,7 @@ app.use(
 );
 
 // API Routes
-app.use('/', orderRoutes);
+app.use('/api', orderRoutes);
 app.use('/api', webHooksRoutes);
 app.use('/api', contactRoutes);
 app.use('/api', adminRoutes);
